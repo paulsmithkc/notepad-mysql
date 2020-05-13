@@ -31,7 +31,7 @@ function connect() {
  * Returns all notes in the database as an array.
  * @return {Promise<Note[]>}
  */
-function getAllNotes() {
+async function getAllNotes() {
   return knex('notes').select('*');
 }
 
@@ -40,7 +40,7 @@ function getAllNotes() {
  * @param {string|number} id the id of the note
  * @return {Promise<Note>}
  */
-function findNoteById(id) {
+async function findNoteById(id) {
   return knex('notes').where('_id', id).select('*');
 }
 
@@ -77,6 +77,7 @@ async function deleteOneNote(id) {
 /**
  * Delete all notes from the database.
  * (This is permanent, use with caution.)
+ * @return {Promise<any>}
  */
 async function deleteAllNotes() {
   return knex('notes').delete();
