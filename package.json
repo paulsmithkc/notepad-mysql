@@ -1,7 +1,7 @@
 {
-  "name": "@ranken/notepad_mongodb",
+  "name": "@ranken/notepad_mysql",
   "version": "1.0.0",
-  "description": "Notepad example project w/ MongoDB",
+  "description": "Notepad example project w/ MySQL",
   "main": "index.js",
   "scripts": {
     "start": "node -r dotenv/config index.js",
@@ -36,7 +36,8 @@
     "express": "^4.17.1",
     "helmet": "^3.22.0",
     "joi-objectid": "^3.0.1",
-    "mongodb": "^3.5.7"
+    "knex": "^0.21.1",
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
     "eslint": "^7.0.0",

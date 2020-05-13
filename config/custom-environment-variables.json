@@ -5,7 +5,10 @@
     "port": "PORT"
   },
   "db": {
-    "name": "DB_NAME",
-    "uri": "DB_URI"
+    "database": "DB_NAME",
+    "host": "DB_HOST",
+    "port": "DB_PORT",
+    "user": "DB_USER",
+    "password": "DB_PASS"
   }
 }
