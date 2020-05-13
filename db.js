@@ -32,7 +32,7 @@ function connect() {
  * @return {Promise<Note[]>}
  */
 async function getAllNotes() {
-  return knex('notes').select('*');
+  return knex('notes').select('*').orderBy('title');
 }
 
 /**
