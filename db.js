@@ -1,9 +1,9 @@
 const debug = require('debug')('app:db');
 const config = require('config');
-const { MongoClient, Db, ObjectId } = require('mongodb');
+const mysql = require('mysql');
+const knex = require('knex');
 
-const DB_NAME = config.get('db.name');
-const DB_URI = config.get('db.uri');
+const DB_CONFIG = config.get('db');
 
 /**
  * Note Entity
@@ -15,45 +15,49 @@ class Note {
    * @param {string} body body text of the note
    */
   constructor(title, body) {
-    this._id = new ObjectId().toString();
+    this._id = 0;
     this.title = title;
     this.body = body;
   }
 }
 
 /**
- * Global database connection.
- * Do not user directly, call connect() when needed.
- * @type {Db}
- */
-let databaseConnection = null;
-
-/**
  * Open a connection to the database, if one is not already open.
  * Otherwise, reuse the existing connection.
- * @return {Promise<Db>}
+ * @return {Promise<mysql.Connection>}
  */
-async function connect() {
-  if (!databaseConnection) {
+function connect() {
+  return new Promise((resolve, reject) => {
     debug('connecting to database...');
-    const client = await MongoClient.connect(DB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      poolSize: 10,
+    const connection = mysql.createConnection(DB_CONFIG);
+    connection.connect((err) => {
+      if (err) {
+        debug('error connecting: ' + err.stack);
+        reject(err);
+      } else {
+        debug('connected as id ' + connection.threadId);
+        resolve(connection);
+      }
     });
-    databaseConnection = client.db(DB_NAME);
-  }
-  return databaseConnection;
+  });
 }
 
 /**
  * Returns all notes in the database as an array.
  * @return {Promise<Note[]>}
  */
-async function getAllNotes() {
-  const db = await connect();
-  const collection = db.collection('notes');
-  return collection.find({}).sort({ title: 1 }).toArray();
+function getAllNotes() {
+  return new Promise((resolve, reject) => {
+    const query = 'SELECT * FROM notes';
+    const connection = mysql.createConnection(DB_CONFIG);
+    connection.query(query, (err, results, fields) => {
+      if (err) {
+        reject(error);
+      } else {
+        resolve(results);
+      }
+    });
+  });
 }
 
 /**

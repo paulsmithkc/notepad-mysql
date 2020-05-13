@@ -1,3 +1,6 @@
+-- Reset admin password, if needed
+-- ALTER USER 'admin' IDENTIFIED WITH mysql_native_password BY 'P@ssw0rd'
+
 -- Create the database schema
 DROP DATABASE IF EXISTS notepad;
 CREATE DATABASE notepad DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
