@@ -5,7 +5,7 @@ const db = require('../db');
 
 // define the schema for a valid note
 const NOTE_SCHEMA = joi.object({
-  _id: joi.objectId(),
+  _id: joi.number(),
   title: joi.string().required(),
   body: joi.string().required(),
 });
@@ -32,7 +32,7 @@ router.get('/', async (request, response, next) => {
 router.get('/:id', async (request, response, next) => {
   try {
     const id = request.params.id;
-    if (!db.isValidId(id)) {
+    if (!id) {
       return sendInvalidId(response);
     }
 
@@ -47,7 +47,7 @@ router.get('/:id', async (request, response, next) => {
 router.post('/', async (request, response, next) => {
   try {
     const note = request.body;
-    note._id = db.newId();
+    note._id = 0;
 
     await NOTE_SCHEMA.validateAsync(note);
     await db.insertOneNote(note);
@@ -61,7 +61,7 @@ router.post('/', async (request, response, next) => {
 router.put('/:id', async (request, response, next) => {
   try {
     const id = request.params.id;
-    if (!db.isValidId(id)) {
+    if (!id) {
       return sendInvalidId(response);
     }
 
@@ -91,7 +91,7 @@ router.delete('/all', async (request, response, next) => {
 router.delete('/:id', async (request, response, next) => {
   try {
     const id = request.params.id;
-    if (!db.isValidId(id)) {
+    if (!id) {
       return sendInvalidId(response);
     }
 
