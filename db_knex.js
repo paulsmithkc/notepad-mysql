@@ -1,3 +1,10 @@
+/**
+ * Database Module
+ * using knex query builder
+ * @see https://www.npmjs.com/package/knex
+ * @module db
+ */
+
 const config = require('config');
 
 const DB_CONFIG = config.get('db');
@@ -41,7 +48,8 @@ async function getAllNotes() {
  * @return {Promise<Note>}
  */
 async function findNoteById(id) {
-  return knex('notes').where('_id', id).select('*');
+  const results = await knex('notes').where('_id', id).select('*');
+  return results && results.length ? results[0] : null;
 }
 
 /**
@@ -50,8 +58,8 @@ async function findNoteById(id) {
  * @return {Promise<Note>}
  */
 async function insertOneNote(note) {
-  const result = await knex('notes').insert({ title: note.title, body: note.body });
-  note._id = result[0];
+  const results = await knex('notes').insert({ title: note.title, body: note.body });
+  note._id = results[0];
   return note;
 }
 

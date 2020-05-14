@@ -9,6 +9,7 @@
     "host": "localhost",
     "port": 3306,
     "user": "admin",
-    "password": "P@ssw0rd"
+    "password": "P@ssw0rd",
+    "connectionLimit": 10
   }
 }

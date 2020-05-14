@@ -9,6 +9,7 @@
     "host": "DB_HOST",
     "port": "DB_PORT",
     "user": "DB_USER",
-    "password": "DB_PASS"
+    "password": "DB_PASS",
+    "connectionLimit": "DB_POOL"
   }
 }
