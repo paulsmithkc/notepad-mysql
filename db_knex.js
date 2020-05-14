@@ -6,6 +6,7 @@
  */
 
 const config = require('config');
+const _ = require('lodash');
 
 const DB_CONFIG = config.get('db');
 const knex = require('knex')({ client: 'mysql', connection: DB_CONFIG });
@@ -49,7 +50,7 @@ async function getAllNotes() {
  */
 async function findNoteById(id) {
   const results = await knex('notes').where('_id', id).select('*');
-  return results && results.length ? results[0] : null;
+  return _.first(results);
 }
 
 /**
@@ -59,7 +60,7 @@ async function findNoteById(id) {
  */
 async function insertOneNote(note) {
   const results = await knex('notes').insert({ title: note.title, body: note.body });
-  note._id = results[0];
+  note._id = _.first(results);
   return note;
 }
 

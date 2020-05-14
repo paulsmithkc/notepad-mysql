@@ -7,6 +7,7 @@
 
 const config = require('config');
 const mysql = require('mysql');
+const _ = require('lodash');
 
 const DB_CONFIG = config.get('db');
 const pool = mysql.createPool(DB_CONFIG);
@@ -64,7 +65,7 @@ function findNoteById(id) {
       if (err) {
         reject(err);
       } else {
-        resolve(results && results.length ? results[0] : null);
+        resolve(_.first(results));
       }
     });
   });
